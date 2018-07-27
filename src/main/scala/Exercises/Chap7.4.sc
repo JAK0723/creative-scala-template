@@ -12,7 +12,7 @@ def cross(count: Int): Image = {
   }
 }
 
-//cross(3).draw
+cross(3).draw
 
 def chessboard(count: Int): Image = {
   val blackSquare = rectangle(50, 50) fillColor Color.black
@@ -36,23 +36,8 @@ def chessboardLoop(count: Int): Image = {
   var result = Image.empty
 
   while (x < max) {
-//    while (y < max) {
-//      if ((x + y) % 2 == 0) {
-//        result = result beside redSquare
-//      } else {
-//        result = result beside blackSquare
-//      }
-//      y += 1
-//    }
     result = result above row(x)
     x += 1
-//    if ((x + y) % 2 == 0) {
-//      result = result above redSquare
-//    } else {
-//      result = result above blackSquare
-//    }
-//    y = 1
-//    x += 1
   }
   def row(i: Int): Image = {
     var res = Image.empty
@@ -71,5 +56,78 @@ def chessboardLoop(count: Int): Image = {
   result
 }
 
-chessboard(4).draw
+//chessboard(4).draw
 //chessboardLoop(4).draw
+
+def sierpinski(count: Int): Image = {
+  val base = triangle(10, 10) lineColor Color.magenta lineWidth 3
+
+  count match {
+    case 0 => base
+    case n =>
+      val unit = sierpinski(n - 1)
+      (unit beside unit) below unit
+  }
+}
+
+//sierpinski(100).draw
+
+val aBox = rectangle(200, 200)
+
+def gradientBoxes(count: Int): Image = {
+  count match {
+    case 0 => Image.empty
+    case n => gradientBoxes(n - 1) beside aBox fillColor Color.royalBlue.spin((15 * (n - 1)).degrees)
+  }
+}
+
+def gradientBoxes(count: Int, col: Color): Image = {
+  count match {
+    case 0 => Image.empty
+    case n => aBox fillColor col beside gradientBoxes(n - 1, col.spin(15.degrees))
+  }
+}
+
+//gradientBoxes(5).draw
+//gradientBoxes(5, Color.royalBlue).draw
+
+def concentricCircles(count: Int): Image = {
+  count match {
+    case 0 => Image.empty
+    case n =>
+      val aCircle = circle(30 + n * 10) lineColor Color.royalBlue lineWidth 5
+      aCircle under concentricCircles(n - 1)
+  }
+}
+
+def concentricCircles(count: Int, size: Int): Image = {
+  count match {
+    case 0 => Image.empty
+    case n =>
+      val aCircle = circle(size) lineColor Color.royalBlue lineWidth 5
+      aCircle under concentricCircles(n - 1, size + 10)
+  }
+}
+
+//concentricCircles(40).draw
+//concentricCircles(40, 40).draw
+
+def circlesFade(count: Int): Image = {
+  count match {
+    case 0 => Image.empty
+    case n =>
+      val aCircle = circle(30 + n * 10) lineColor Color.red.fadeOutBy((0.05 * n).normalized) lineWidth 5
+      aCircle under circlesFade(n - 1)
+  }
+}
+
+def circlesHue(count: Int): Image = {
+  count match {
+    case 0 => Image.empty
+    case n =>
+      val aCircle = circle(30 + n * 10) lineColor Color.royalBlue.spin((15 * n).degrees) lineWidth 5
+      aCircle under circlesHue(n - 1)
+  }
+}
+
+(circlesFade(20) beside circlesHue(20)).draw
