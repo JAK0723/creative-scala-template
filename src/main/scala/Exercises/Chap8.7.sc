@@ -104,14 +104,9 @@ def rec(n: Int): Image = {
   rectangle(size(n), size(n))
 }
 
-// Which format is preferred?
 def colored(shape: Int => Image, color: Int => Color): Int => Image = {
   n: Int => shape(n) lineWidth 30 lineColor color(n)
 }
-
-//def colored(shape: Int => Image, color: Int => Color): Int => Image = (n: Int) => {
-//  shape(n) lineWidth 30 lineColor color(n)
-//}
 
 val count = 10
 val rainbowCircle = concentricShapes(count, colored(circ, spinning))
