@@ -63,3 +63,9 @@ def makeImage(count: Int): Image = {
 }
 
 makeImage(15).draw
+
+def ascendingTo(num: Int): List[Int] = {
+  (1 to num).toList.map(x => x)
+}
+
+println(ascending(3))
