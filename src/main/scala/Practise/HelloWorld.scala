@@ -1,3 +1,5 @@
+package Practise
+
 import scala.annotation.tailrec
 
 object HelloWorld extends App {
