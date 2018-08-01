@@ -103,36 +103,39 @@ def reverse[A](list: List[A]): List[A] = {
 println(reverse(List(1, 2, 3)))
 println(reverse(List("a", "b", "c")))
 
-val baseColor = Color.hsl(0.degrees, 0.7.normalized, 0.7.normalized)
-val size = 50
+def polygon(count: Int): Image = {
+  val baseColor = Color.hsl(0.degrees, 0.7.normalized, 0.7.normalized)
+  val size = 50
 
-def polygon(sides: Int, size: Int, initialRotation: Angle): Image = {
-  def loop(count: Int, rotation: Angle): List[PathElement] = {
-    count match {
-      case 0 => Nil
-      case n => lineTo(polar(size, initialRotation + rotation * n)) :: loop(n - 1, rotation)
+  def makeImage(num: Int): Image = {
+    num match {
+      case 0 => Image.empty
+      case n =>
+        val shape = makeShape(n, size)
+        val color = makeColor(n, 30.degrees)
+        makeImage(n - 1) on shape fillColor color lineWidth 5
     }
   }
 
-  closedPath(moveTo(polar(size, initialRotation)) :: loop(sides, 360.degrees / sides))
-}
-
-def makeShape(num: Int, increment: Int): Image = {
-  polygon(num + 2, num * increment, 0.degrees)
-}
-
-def makeColor(num: Int, spin: Angle): Color = {
-  baseColor spin (spin * num)
-}
-
-def makeImage(count: Int): Image = {
-  count match {
-    case 0 => Image.empty
-    case n =>
-      val shape = makeShape(n, size)
-      val color = makeColor(n, 30.degrees)
-      makeImage(n - 1) on shape fillColor color lineWidth 5
+  def makeColor(num: Int, spin: Angle): Color = {
+    baseColor spin (spin * num)
   }
+
+  def makeShape(num: Int, increment: Int): Image = {
+    makePolygon(num + 2, num * increment, 0.degrees)
+  }
+
+  def makePolygon(sides: Int, size: Int, initialRotation: Angle): Image = {
+    def loop(count: Int, rotation: Angle): List[PathElement] = {
+      count match {
+        case 0 => Nil
+        case n => lineTo(polar(size, initialRotation + rotation * n)) :: loop(n - 1, rotation)
+      }
+    }
+    closedPath(moveTo(polar(size, initialRotation)) :: loop(sides, 360.degrees / sides))
+  }
+
+  makeImage(count)
 }
 
-makeImage(15).draw
+polygon(15).draw
