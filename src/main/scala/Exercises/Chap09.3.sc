@@ -69,3 +69,5 @@ def ascendingTo(num: Int): List[Int] = {
 }
 
 println(ascending(3))
+
+println(((x: Int) => x + 42)(10))

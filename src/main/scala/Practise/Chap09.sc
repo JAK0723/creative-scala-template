@@ -136,7 +136,7 @@ println(tail.tail)
 def length[A](list: List[A]): Int =
   list match {
     case Nil => 0
-    case hd :: tl => 1 + length(tl)
+    case _ :: tl => 1 + length(tl)
   }
 
 println(length(list))
@@ -144,3 +144,21 @@ println(length(list))
 val list2 = List(4, 5, 6)
 
 list ++ list2
+
+def map(op: Int => Int, list: List[Int]): List[Int] = {
+  list match {
+    case Nil => Nil
+    case hd :: tl => op(hd) :: map(op, tl)
+  }
+}
+
+println(map((x: Int) => x * 2, List(1, 2, 3, 4)))
+
+def mapG[A, B](op: A => B, list: List[A]): List[B] = {
+  list match {
+    case Nil => Nil
+    case hd :: tl => op(hd) :: mapG(op, tl)
+  }
+}
+
+println(mapG((x: Int) => "Hello " + x, List(1, 2, 3, 4)))

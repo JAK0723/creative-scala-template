@@ -8,6 +8,8 @@ import doodle.backend.StandardInterpreter._
 
 val rose = (angle: Angle) => Point.polar((angle * 7).cos * 200, angle)
 
+def parametricCircle(angle: Angle): Point = Point.polar(200, angle)
+
 def sample(start: Angle, samples: Int, location: Angle => Point): Image = {
   // Angle.one is one complete turn. I.e. 360 degrees
   val step = Angle.one / samples
@@ -23,4 +25,4 @@ def sample(start: Angle, samples: Int, location: Angle => Point): Image = {
   loop(samples)
 }
 
-sample(0.degrees, 72, rose).draw
+sample(0.degrees, 1000, rose).draw

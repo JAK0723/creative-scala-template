@@ -23,5 +23,3 @@ def allBeside(images: List[Image]): Image = {
 val sides = 11
 
 allBeside((1 to (sides / 2)).toList map (skip => star(sides, skip, 100))).draw
-
-"test"
