@@ -1,3 +1,4 @@
+/*
 package Practise
 
 import scala.annotation.tailrec
@@ -25,3 +26,4 @@ object HelloWorld extends App {
 
   println(countRec(1, 4))
 }
+*/
